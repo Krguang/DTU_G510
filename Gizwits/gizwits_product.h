@@ -113,6 +113,15 @@ extern dataPoint_t currentDataPoint;
 extern volatile uint16_t localArray[];
 extern volatile uint8_t modbusPullFlag01;
 
+extern volatile uint8_t Usart1ReceiveState;
+
+struct buffer {
+	uint8_t BufferArray[512];
+	uint16_t BufferLen;
+};
+
+extern struct buffer  Usart1ReceiveBuffer;
+
 void gizTimerMs(void);
 void timerInit(void);
 void uartInit(void);

@@ -21,7 +21,6 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -243,6 +242,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 } 
 
 /* USER CODE BEGIN 1 */
+
 
 /* USER CODE END 1 */
 

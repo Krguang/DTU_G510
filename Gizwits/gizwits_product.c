@@ -30,9 +30,13 @@ volatile uint8_t modbusPullFlag01;
 /** User area the current device state structure*/
 dataPoint_t currentDataPoint;
 
-extern TIM_HandleTypeDef htim2;
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart2;
+//extern TIM_HandleTypeDef htim2;
+//extern UART_HandleTypeDef huart1;
+//extern UART_HandleTypeDef huart2;
+
+struct buffer  Usart1ReceiveBuffer;
+
+volatile uint8_t Usart1ReceiveState = 0;
 
 /**@} */
 /**@name Gizwits User Interface
@@ -333,10 +337,29 @@ void timerInit(void)
 	HAL_TIM_Base_Start_IT(&htim2);
 }
 
+
+void USART1_IRQHandler()
+{
+	uint8_t Clear = Clear;
+
+	if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_RXNE) != RESET)
+	{
+		Usart1ReceiveBuffer.BufferArray[Usart1ReceiveBuffer.BufferLen++] = huart1.Instance->DR;
+	}
+
+	if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) != RESET)
+	{
+		Clear = huart1.Instance->SR;
+		Clear = huart1.Instance->DR;
+		Usart1ReceiveState = 1;
+		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+	}
+}
+
 /**
   * @brief  This function handles USART IDLE interrupt.
   */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle)  
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)  
 {  
     if(UartHandle->Instance == USART2)  
     {  

@@ -36,7 +36,7 @@ error:
 	$(error Invalid configuration, please check your inputs)
 endif
 
-SOURCEFILES := ../Src/gpio.c ../Src/tim.c ../Src/usart.c ../Src/stm32f1xx_it.c ../Src/stm32f1xx_hal_msp.c ../Src/main.c ../Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c $(BSP_ROOT)/STM32F1xxxx/StartupFiles/startup_stm32f103xe.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c
+SOURCEFILES := ../Src/gpio.c ../Src/modbusToPC.c ../Src/tim.c ../Src/usart.c ../Src/stm32f1xx_it.c ../Src/stm32f1xx_hal_msp.c ../Src/main.c ../Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c $(BSP_ROOT)/STM32F1xxxx/StartupFiles/startup_stm32f103xe.c ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c ../Gizwits/gizwits_product.c ../Gizwits/gizwits_protocol.c ../Utils/common.c ../Utils/dataPointTools.c ../Utils/ringbuffer.c
 EXTERNAL_LIBS := 
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 
@@ -186,6 +186,10 @@ $(BINARYDIR)/gpio.o : ../Src/gpio.c $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
 
+$(BINARYDIR)/modbusToPC.o : ../Src/modbusToPC.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
 $(BINARYDIR)/tim.o : ../Src/tim.c $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
@@ -263,5 +267,25 @@ $(BINARYDIR)/startup_stm32f103xe.o : $(BSP_ROOT)/STM32F1xxxx/StartupFiles/startu
 
 
 $(BINARYDIR)/stm32f1xx_hal_gpio_ex.o : ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/gizwits_product.o : ../Gizwits/gizwits_product.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/gizwits_protocol.o : ../Gizwits/gizwits_protocol.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/common.o : ../Utils/common.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/dataPointTools.o : ../Utils/dataPointTools.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
+
+
+$(BINARYDIR)/ringbuffer.o : ../Utils/ringbuffer.c $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) -c $< -o $@ -MD -MF $(@:.o=.dep)
 
